@@ -1,8 +1,26 @@
 Disclaimer: this module is based on the work of [adampmoss/MageFoxGoogleShopping](https://github.com/adampmoss/MageFoxGoogleShopping) and [Quazz/MageFoxGoogleShopping](https://github.com/Quazz/MageFoxGoogleShopping). 
 
+# Installation
+
+The module can be installed as follows:
+
+```
+cd app/code
+# Clone the module
+git clone https://github.com/inatic/magento2-googleshopping Inatic/FacebookFeed
+# Upgrade the magento installation
+$ bin/magento setup:upgrade
+# Clean cache and generated code
+$ bin/magento cache:clean
+```
+
+To access the feed, go to : www.website.com/inaticfacebookfeed/
+
+# How the module works
+
 The following is a short explanation of how this module works. Any module contains the following files: `registration.php`, responsible for registering the namespace of the module with the system, `etc/module.xml`, containing the name and possible other details on the module, and `composer.json`, which provides information on the module as well as its requirements for a `composer` installation.
 
-# Route to XML file
+## Route to XML file
 
 The module generates an XML file containing information on the products you would like to add to a Facebook shop. This XML document is downloaded by Facebook from the Magento installation, and thus a route to the document need to be added. In this case the route will be `yourstore.com/inaticfacebookfeed` but can easily be modified to something else. The file needs to be accessible from the frontend and so it is configured in `etc/frontend/routes.xml`.
 
@@ -22,7 +40,7 @@ $resultRaw->setContents($this->xmlFeed->getFeedFile());
 return $resultRaw;
 ```
 
-# Fetch product data
+## Fetch product data
 
 Before proceeding to create the actual XML content we'll have a look at a class to help fetching product data from the database. Products in this case are filtered on their status (enabled or not), visibility, and the store they belong to. The `store` table in the database can tell you the `store_id` for each of the stores. Although this is not done here, a different XML file could easily be generated for each store by filtering on `store_id`. The class used to generate product collection can be found under `vendor/magento/module-catalog/Model/ResourceModel/Product`.
 
@@ -55,7 +73,7 @@ foreach ($productCollection as $product) {
 }
 ```
 
-# Example XML file
+## Example XML file
 
 Content for the XML file is generated in `Model\XmlFeed.php` and this is where most of the module's work takes place. To know what kind of content needs to be added to a Facebook feed, one can look at an example by going to your [Facebook Commerce Manager](https://business.facebook.com/commerce/) account, selecting a *catalog* of choice and then going to **Catalog | Data sources | Data feed**. Click **Next**, then select **No, I need a feed template**, and click **Next** again. An XML template can then be downloaded. It should look somewhat like the following:
 
@@ -97,7 +115,7 @@ Each XML text file should start with a header and end with a footer, as can be s
 </channel></rss>
 ```
 
-## Attribute mapping
+### Attribute mapping
 
 Some of these values are required for every module, so these will be implemented first, after which the module can be tested. For some of the required values there is a corresponding attribute in a default Magento installation, while others still need to be added.
 
@@ -111,7 +129,7 @@ Some of these values are required for every module, so these will be implemented
 * `image_link`
 * `brand`
 
-## Optional values
+### Optional values
 
 Other values are optional, being:
 
@@ -146,7 +164,7 @@ Other values are optional, being:
 * `disabled_capabilities`
 * `commerce_tax_category`
 
-## Cron
+### Cron
 
 A cron job takes care of generating the Facebook feed on a daily basis. This is configured in `/etc/crontab.xml` and the file in this case is set to be generated every day at noon. 
 
