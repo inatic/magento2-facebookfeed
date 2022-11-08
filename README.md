@@ -5,7 +5,7 @@ This repository contains a Magento 2 module for generating a Facebook feed in XM
 ```
 cd app/code
 # Clone the module
-git clone https://github.com/inatic/magento2-googleshopping Inatic/FacebookFeed
+git clone https://github.com/inatic/magento2-facebookfeed Inatic/FacebookFeed
 # Upgrade the magento installation
 $ bin/magento setup:upgrade
 # Clean cache and generated code
