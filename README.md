@@ -73,37 +73,37 @@ A range of optional attributes can furthermore be added to a product. Details of
 
 | Facebook                          | Magento                   | Comment
 |-----------------------------------|---------------------------|-------------------
-| `sale_price`                      | `final_price`             |
-| `gtin`                            | `ean`                     | create
-| `size`                            | `size`                    | create
-| `material`                        | `material`                | create
-| `color`                           | `color`                   | create
-| `sale_price_effective_date`       |							|
-| `item_group_id`                   |							|
-| `status`                          |							|
-| `additional_image_link`           |							|
-| `google_product_category`         | `google_product_category` | create
-| `fb_product_category`             | `fb_product_category`     | create
-| `gender`                          |                           |
-| `age_group`                       |							|
-| `pattern`                         |							|
-| `shipping`                        |							|
-| `shipping_weight`                 |							|
-| `custom_label_0`                  | `categories`              |
-| `custom_label_[1-4]`              |							|
-| `custom_number_[0-4]`             |							|
-| `rich_text_description`           |							|
-| `marked_for_product_launch`       |							|
-| `product_type`                    |							|
-| `video`                           |							|
-| `additional_variant_attribute`    |							|
-| `unit_price`                      |							|
-| `mpn`                             |							|
-| `expiration_date`                 |							|
-| `return_policy_info`              |							|
-| `mobile_link`                     |							|
-| `disabled_capabilities`           |							|
-| `commerce_tax_category`           |							|
+| sale_price                        | final_price               |
+| gtin                              | ean                       | create
+| size                              | size                      | create
+| material                          | material                  | create
+| color                             | color                     | create
+| sale_price_effective_date         |							|
+| item_group_id                     |							|
+| status                            |							|
+| additional_image_link             |							|
+| google_product_category           | google_product_category   | create
+| fb_product_category               | fb_product_category       | create
+| gender                            |                           |
+| age_group                         |							|
+| pattern                           |							|
+| shipping                          |							|
+| shipping_weight                   |							|
+| custom_label_0                    | categories                |
+| custom_label_[1-4]                |							|
+| custom_number_[0-4]               |							|
+| rich_text_description             |							|
+| marked_for_product_launch         |							|
+| product_type                      |							|
+| video                             |							|
+| additional_variant_attribute      |							|
+| unit_price                        |							|
+| mpn                               |							|
+| expiration_date                   |							|
+| return_policy_info                |							|
+| mobile_link                       |							|
+| disabled_capabilities             |							|
+| commerce_tax_category             |							|
 
 ## Add to Facebook feed
 
