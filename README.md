@@ -12,8 +12,6 @@ $ bin/magento setup:upgrade
 $ bin/magento cache:clean
 ```
 
-To access the feed, go to : www.website.com/inaticfacebookfeed/
-
 You will also need to create the following attributes for the module to function as it is configured here:
 
 | Attribute                 | Type
@@ -22,6 +20,8 @@ You will also need to create the following attributes for the module to function
 | condition                 | Text
 | brand                     | Text
 | ean                       | Text
+
+To access the feed, go to : www.website.com/inaticfacebookfeed/
 
 # Example XML file
 
