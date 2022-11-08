@@ -57,22 +57,22 @@ At minimum the attributes in below table need to be provided for every product i
 
 | Facebook          | Magento           | Comment
 |-------------------|-------------------|----------------    
-| `id`              | `id`              |
-| `title`           | `name`            |
-| `description`     | `description`     |
-| `availability`    | `isSaleable()`    | 
-| `condition`       | `new`             | create
-| `price`           | `regular_price`   |
-| `link`            | `product_url`     |
-| `image_link`      | `image`           |
-| `brand`           | `brand`		    | create
+| id                | id                |
+| title             | name              |
+| description       | description       |
+| availability      | isSaleable()      | 
+| condition         | new               | create
+| price             | regular_price     |
+| link              | product_url       |
+| image_link        | image             |
+| brand`            | brand		        | create
 
 ## Optional attributes
 
 A range of optional attributes can furthermore be added to a product. Details of these attributes can be found on [Facebook's developer website](https://developers.facebook.com/docs/marketing-api/catalog/reference/#da-commerce). Some of the corresponding Magento attributes need to be added from the website's admin panel.
 
 | Facebook                          | Magento                   | Comment
-|===================================|===========================|===================
+|-----------------------------------|---------------------------|-------------------
 | `sale_price`                      | `final_price`             |
 | `gtin`                            | `ean`                     | create
 | `size`                            | `size`                    | create
