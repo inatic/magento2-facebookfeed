@@ -14,6 +14,14 @@ $ bin/magento cache:clean
 
 To access the feed, go to : www.website.com/inaticfacebookfeed/
 
+You will also need to create the following attributes for the module to function:
+
+| Attribute                 | Type
+|---------------------------|----------------
+| condition                 | Text
+| brand                     | Text
+| add_to_facebook_feed      | Yes/No
+
 # Example XML file
 
 For information on the type of content that is expected in a Facebook feed, you can get an example XML file by going to your [Facebook Commerce Manager account](https://business.facebook.com/commerce/), selecting a *catalog* of choice and going to **Catalog | Data sources | Data feed**. Click **Next**, then select **No, I need a feed template**, and click **Next** again. An XML template can then be downloaded, and it should look somewhat like the following:
@@ -107,7 +115,7 @@ A range of optional attributes can furthermore be added to a product. Details of
 
 ## Add to Facebook feed
 
-Not all products in the store are added to the Facebook feed, only those specifically selected by the website administrator. This is done by creating an attribute named `add_to_facebook_feed` that has `Yes/No` as possible values and determines if a given product is added to the feed. This attribute is used in `Helper/Products.php` to filter the product collection from which the feed is made.
+Not all products in the store are added to the Facebook feed, only those specifically selected by the website administrator. This is done by use of an attribute named `add_to_facebook_feed` that has `Yes/No` as possible values and determines if a given product is added to the feed. This attribute is used in `Helper/Products.php` to filter the product collection from which the feed is generated.
 
 ```Helper/Products.php
 public function getFilteredProducts()
@@ -128,6 +136,8 @@ public function getFilteredProducts()
 
 The following is a short explanation of how this module works. The module only contains a few files, and part of these are just there to add the module to the installation and are common to all Magento modules, being:
 
+| File                  | Use
+|-----------------------|----------------------------------------------
 | registration.php		| responsible for registering the namespace of the module with the system
 | etc/module.xml		| contains the name and possible other details on the module
 | composer.json			| provides information on the module as well as its requirements and dependencies, for a `composer` installation
@@ -146,7 +156,7 @@ The module generates an XML file containing information on the products you woul
 
 ## Accept the request
 
-Once the request arraives at the module, a controller at `Controller/Index/Index.php` accepts the request and takes care of further processing. The controller prepares a response for the request, sets a header to specify that the content being returned in XML data, and gets the content for the response from the `xmlFeed` object. The latter takes care of generating the actual XML code for each of the products that has its `add_to_facebook_feed` attribute set to `Yes`.
+Once the request arrives at the module, a controller at `Controller/Index/Index.php` accepts the request and takes care of further processing. The controller prepares a response for the request, sets a header to specify that the content being returned in XML data, and gets the content for the response from the `xmlFeed` object. The latter takes care of generating the actual XML code for each of the products that has its `add_to_facebook_feed` attribute set to `Yes`.
 
 ```Controller/Index/Index.php
 $resultRaw->setHeader('Content-Type', 'text/xml');
@@ -175,7 +185,7 @@ public function getFilteredProducts()
 
 ## XmlFeed
 
-Each XML text file should start with a header and end with a footer, with data for each product coming between these in `<item>` tags.
+Each XML text file should start with a header and end with a footer, with data for each product placed between them in `<item>` tags.
 
 ```
 <?xml version="1.0"?>
@@ -205,7 +215,7 @@ foreach ($productCollection as $product) {
 ```
 
 ### Product data
-The `buildProductXml` function then takes care of fetching the relevant feed data for each of the products and formats this data according to Facebook requirements. All product data is accessible from the `$product` object, either by a convenience method like `getName` or by use of the `getAttributeText()` method.
+The `buildProductXml` function takes care of fetching the relevant feed data for each of the products and formats this data according to Facebook requirements. All product data is accessible from the `$product` object, either by a convenience method like `getName()` or by use of generic methods like `getData() or `getAttributeText()`.
 
 ```
 $product->getName();
@@ -218,7 +228,7 @@ $product->getData('ean');
 
 ### Cron
 
-A cron job takes care of generating the Facebook feed on a daily basis. This is configured in `/etc/crontab.xml` and the file in this case is set to be generated every day at half an hour past midnight. As you can see, the object being instantiated is `Inatic\FeedFacebook\Cron\GenerateFeed` and the `execute` method is called on this object. Latter method executes `xmlFeed->getFeed()` to get the XML feed data and saves it to the `pub` directory in the Magento installation.
+A cron job takes care of generating the Facebook feed on a daily basis. This is configured in `/etc/crontab.xml` and the file in this case is set to be generated every day at half an hour past midnight. As you can see, the object being instantiated is `Inatic\FeedFacebook\Cron\GenerateFeed` and the `execute` method is called on the object. Latter method executes `xmlFeed->getFeed()` to get the XML feed data and saves it to the `pub` directory in the Magento installation.
 
 ```
 <?xml version="1.0"?>
