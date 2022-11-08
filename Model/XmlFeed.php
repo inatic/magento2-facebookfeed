@@ -58,19 +58,11 @@ class XmlFeed
         $this->scopeConfig = $scopeConfig;
     }
 
-    public function getFeed(): string
-    {
-        $xml = $this->getXmlHeader();
-        $xml .= $this->getProductsXml();
-        $xml .= $this->getXmlFooter();
-
-        return $xml;
-    }
-
     public function getFeedFile(): string
     {
         $xml = '';
-        $fileName = "feedfacebook.xml";
+
+        $fileName = "facebookfeed.xml";
         if (file_exists($fileName)){
             $xml = file_get_contents($fileName); //phpcs:ignore
         }
@@ -81,6 +73,15 @@ class XmlFeed
         return $xml;
     }
 
+    public function getFeed(): string
+    {
+        $xml = $this->getXmlHeader();
+        $xml .= $this->getProductsXml();
+        $xml .= $this->getXmlFooter();
+
+        return $xml;
+    }
+
     public function getXmlHeader(): string
     {
         header("Content-Type: application/xml; charset=utf-8"); //phpcs:ignore
@@ -88,16 +89,11 @@ class XmlFeed
         $xml =  '<?xml version="1.0"?>';
         $xml .= '<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">';
         $xml .= '<channel>';
-        $xml .= '<title>'.$this->helper->getConfig('google_default_title').'</title>';
-        $xml .= '<link>'.$this->helper->getConfig('google_default_url').'</link>';
-        $xml .= '<description>'.$this->helper->getConfig('google_default_description').'</description>';
+        $xml .= '<title>'.$this->scopeConfig->getValue('general/store_information/name', ScopeInterface::SCOPE_STORE).' Product Feed' . '</title>';
+        $xml .= '<link>'.$this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB,true).'</link>';
+        $xml .= '<description>Product Feed for Facebook</description>';
 
         return $xml;
-    }
-
-    public function getXmlFooter(): string
-    {
-        return  '</channel></rss>';
     }
 
     public function getProductsXml(): string
@@ -112,6 +108,11 @@ class XmlFeed
         }
 
         return $xml;
+    }
+
+    public function getXmlFooter(): string
+    {
+        return  '</channel></rss>';
     }
 
     private function isValidProduct($product): bool
@@ -160,7 +161,7 @@ class XmlFeed
         $xml .= $this->createNode("id", $product->getId());
         $xml .= $this->createNode("title", $product->getName(), true);
         $xml .= $this->createNode("description", $this->fixDescription($product->getDescription()), true);
-        $xml .= $this->createNode("availability", $this->isInStock($product));
+        $xml .= $this->createNode("availability", ( $product->isSaleable() ) ? 'in stock' : 'out of stock');
         $xml .= $this->createNode("condition", "new");
         $xml .= $this->createNode("price",number_format($regularPrice,2,'.','').' '.$currencySymbol);
         $xml .= $this->createNode("link", $product->getProductUrl());
@@ -187,32 +188,11 @@ class XmlFeed
         return $xml;
     }
 
-    private function isInStock($product): string
-    {
-        $inStock = 'out of stock';
-        if ($product->isSaleable()) {
-            $inStock = 'in stock';
-        }
-        return $inStock;
-    }
-
-    private function getCondition($product)
-    {
-        $_condition = $this->productFeedHelper->getProductValue($product, 'google_condition');
-        if (is_array($_condition)) {
-            $condition = $_condition[0];
-        } elseif ($_condition === "Refurbished") {
-            $condition = "refurbished";
-        } else {
-            $condition = $this->helper->getConfig('default_google_condition');
-        }
-        return $condition;
-    }
-
     public function fixDescription($data): string
     {
         $description = $data;
         $encode = mb_detect_encoding($data);
+        $encode = str_replace( "\r", "", $encode);
         return mb_convert_encoding($description, 'UTF-8', $encode);
     }
 

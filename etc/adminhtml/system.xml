@@ -1,13 +1,16 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <section id="inaticfacebookfeed" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1"
+        <tab id="marketing" translate="label" sortOrder="410">
+            <label>Marketing</label>
+        </tab>
+        <section id="inaticfeeds" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1"
                  showInStore="1">
-            <label>Facebook Feed</label>
-            <tab>sales</tab>
+            <label>Feeds</label>
+            <tab>marketing</tab>
             <resource>Inatic_FacebookFeed::settings</resource>
-            <group id="settings" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1"
+            <group id="inaticfacebookfeed" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1"
                    showInStore="1">
-                <label>Settings</label>
+                <label>Facebook Feed</label>
                 <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Facebook XML Feed?</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
